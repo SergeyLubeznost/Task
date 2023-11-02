@@ -1,0 +1,96 @@
+
+  <div class="containerCard">
+    <div class="cardTask">
+      <h4 class="cardTitle">Ready</h4>
+      <div class="app-task-container">
+        <ul class="ulList" id="ready"></ul>
+      </div>
+      <button  id="ready-addtask-btn"   class="buttonCard">
+        + Add Card
+      </button>
+    </div>
+  
+    <div class="cardTask">
+      <h4 class="cardTitle">In Progress</h4>
+      <div class="app-task-container">
+        <ul class="ulList" id="inprogress"></ul>
+      </div>
+      <button
+        class="buttonCard"
+        id="inprogress-addtask-btn"
+        type="button"
+      >
+        + Add Card
+      </button>
+    </div>
+  
+    <div class="cardTask">
+      <h4 class="cardTitle">Finished</h4>
+      <div class="app-task-container">
+        <ul class="ulList" id="finished"></ul>
+      </div>
+      <button
+        class="buttonCard"
+        id="finished-addtask-btn"
+        disabled
+       
+      >
+        + Add Card
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-dialog modal-dialog-centered">
+    
+</div>
+
+
+<div id="modalTikketViev" class="">
+<div id="modalTicket" class="hidden">
+
+    <div class="contInput">
+        <select id="selectUser"  class="select-css"> 
+            <option>test</option> 
+            <option>test2</option> 
+            </select>
+    </div>
+
+    <div class="contInput">
+        <label for="textTitlie">Введите заголовок</label>
+        <input id="textTitlie" type="text">
+        </div>
+    
+        <div class="contInput">
+        <label for="textTicket">Введите текст</label>
+        <input id="textTicket" type="text">
+        </div>
+    
+        <button id="submitTicket">Задать</button>
+    
+    </div>
+    </div>
+
+
+    <div id="contSelect" class="hidden">
+      <label for="selectTicket">Выберите задачу</label>
+      <select id="selectTicket"  class="select-css"> 
+     
+        </select>
+  
+      <button id="submitToGo">Выбрать</button>
+  </div>
+
+
+  
+    <div id="contSelectFinish" class="hidden">
+      <label for="selectTicket">Выберите задачу</label>
+      <select id="selectTicketFinich"  class="select-css"> 
+     
+        </select>
+  
+      <button id="submitToGoInFinish">Выбрать</button>
+  </div>
+
+
+

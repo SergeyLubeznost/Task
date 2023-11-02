@@ -1,0 +1,319 @@
+#app-login-btn {
+  width: 160px;
+}
+
+.hidden{
+  display: none;
+}
+
+.viev{
+  display: block;
+}
+
+
+.dropdown-toggle::after{
+  display: none;
+}
+
+.rotate{
+  rotate: 180deg;
+}
+
+.avatar{
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.dropdown button{
+  background: none;
+  border: none;
+}
+
+.dropdown-menu li button{
+ width: 100px;  
+}
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  z-index: 1000;
+  display: none;
+  min-width: 100px;
+  padding: 0.5rem 0;
+  margin: 0;
+  font-size: 1rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 0.25rem;
+}
+
+.dropdown-menu li {
+  width: 100px;  
+ }
+
+.navbar{
+  min-width: 1235px;
+  min-height: 55px;
+flex-shrink: 0;
+
+}
+.bg-dark {
+  background: #0067A3!important;
+}
+
+.navbar-brand{
+  width: 331px;
+height: 26px;
+color: #FFF;
+font-family: "Roboto";
+font-size: 28px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+
+margin: 11px 0px 26px 20px;
+}
+
+footer{
+  min-width: 1235px;
+  min-height: 55px;
+  flex-shrink: 0;
+  background: #0067A3!important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+footer div p{
+  color: #FFF;
+  font-family: "Roboto";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+
+.positionNoAuth{
+  position: relative;
+  left: 89%;
+  color: #FFF;
+  font-family: "Roboto";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.vievCount{
+  display: none;
+}
+
+.vievCountPosition{
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  height: 55px;
+  margin-left: 21px;
+  align-items: center;
+}
+
+.vievBoardName{
+  display: none;
+}
+
+.vievBoardNamePosition{
+margin-right: 19px;
+}
+
+.backGround{
+  background: #0079BF;
+  
+}
+
+.container {
+  
+  min-height: 1259px;
+}
+
+.containerCard{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  min-height: 1243px;
+  
+}
+.cardTask{
+  width: 328px;
+  min-height: 384px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #EBECF0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+
+.cardTitle{
+  color: #000;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 12px 38px 15px 12px;
+}
+
+.buttonCard{
+  color: #5E6C84;
+font-family: Roboto;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+background: none;
+border: none;
+margin: 19px 0px 12px 11px;
+}
+
+/*Modal Ready*/
+
+.myModal{
+  width: 500px;
+  min-height: 500px;
+  border-radius: 10px;
+  background: #EBECF0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: -100%;
+  margin-left: 21%;
+}
+
+.modalWindow{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 500px;
+
+  margin: 5px;
+}
+
+.modalWindow input{
+  width: 500px;
+  height: 70px;
+  border-radius: 10px;
+  border: none;
+ 
+}
+
+.modalWindow label{
+  color: #000;
+font-family: Roboto;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.modalWindow select{
+  width: 500px;
+  height: 70px;
+  border-radius: 10px;
+  border: none;
+ 
+}
+
+.modalWindow button{
+  border-radius: 5px;
+  background: #0079BF;
+  width: 500px;
+  height: 70px;
+  color: #FFF;
+  text-align: center;
+  font-family: Roboto;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+}
+
+.TicketBlock{
+  border-radius: 5px;
+background: #FFF;
+color: #000;
+font-family: Roboto;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+overflow-y: auto;
+width: 250px;
+margin-bottom: 9px;
+box-shadow: 2px 2px 4px black;
+}
+
+.app-task-container{
+  overflow-y: auto;
+}
+
+li {
+  list-style: none;
+  width: 255px;
+}
+
+/* Стилизация окна выбора тиккета */
+
+.modalSelect{
+  width: 500px;
+  min-height: 500px;
+  border-radius: 10px;
+  background: #EBECF0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: -100%;
+  margin-left: 21%;
+}
+
+.modalSelect label{
+  color: #000;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.modalSelect select{
+  width: 500px;
+  height: 70px;
+  border-radius: 10px;
+  border: none;
+}
+
+.modalSelect button {
+  border-radius: 5px;
+  background: #0079BF;
+  width: 500px;
+  height: 70px;
+  color: #FFF;
+  text-align: center;
+  font-family: Roboto;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+}
