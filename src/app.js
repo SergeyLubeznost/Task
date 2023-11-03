@@ -79,35 +79,67 @@ readyButton.addEventListener("click", (e) => {
     console.log(addTicket);
 
 
+    if (login === "test") {
+      readyButton.disabled = true;
+    }
 
-////
+
+//// массиив колонки Ready
 let tasksReady = [];
-
+//// массиив колонки InProgress
 let tasksInProgress = [];
-
+//// массиив колонки Finish
 let tasksFinish = [];
-
+// получаем колонку Ready
 const readyColumn = document.querySelector('#ready');
+//Сохраняем массив Ready в сторадж
 const savedTasksReady = localStorage.getItem('tasksReady');
 console.log(savedTasksReady)
 
 
 
-///
+const finishedTask = document.querySelector("#finishedTasks");
+
+
+
+
+//Вы водим в футер имя пользователя и текущий год
+if (login === "admin") {
+  const currentDate = new Date();
+  const formattedDate = currentDate.getFullYear();
+  
+  boardName.innerHTML = `<p>${login},  ${formattedDate}</p>`;
+}
+
+
+
+/* Получаем данные из этого блока   
+<div id="contSelect" class="hidden">
+      <label for="selectTicket">Выберите задачу</label>
+      <select id="selectTicket"  class="select-css"> 
+     
+        </select>
+  
+      <button id="submitToGo">Выбрать</button>
+  </div>*/
 const contSelect = document.querySelector("#contSelect");
-///
+
 const selectTicket = document.querySelector("#selectTicket");
 
-///
+/* Получаем данные с кнопки в колонке прогресса
+  <button
+        class="buttonCard"
+        id="inprogress-addtask-btn"
+        type="button"
+      >
+        + Add Card
+      </button>*/
 const inprogressButton = document.querySelector("#inprogress-addtask-btn");
 
-///
+///Блокируем кнопку добаление в колонке прогресс, если массив tasksReady пуст
 if (tasksReady.length === 0) {
     inprogressButton.disabled = true; 
   } 
-
-
-
 //
 
 inprogressButton.addEventListener('click', ()=>{
@@ -116,17 +148,27 @@ inprogressButton.addEventListener('click', ()=>{
 
 //
 
-//
+/* Получаем кнопку с формы выбора задачи
+ <div id="contSelect" class="hidden">
+      <label for="selectTicket">Выберите задачу</label>
+      <select id="selectTicket"  class="select-css"> 
+     
+        </select>
+  
+      <button id="submitToGo">Выбрать</button>
+  </div>*/
 const submitToGo = document.querySelector("#submitToGo");
-
+//Получаем поле в колонке Прогресса
 const inProgressColumn = document.querySelector("#inprogress");
-
+//
 console.log(submitToGo);
 
 
 
 ///////////////////////////////////////////Колонка Finish //////////////////////////////////////////////////////////////////////////////////////
-const submitToGoInFinish = document.querySelector("#submitToGoInFinish");//
+
+
+const submitToGoInFinish = document.querySelector("#submitToGoInFinish");
 const selectTicketFinich = document.querySelector("#selectTicketFinich");
 const finishedColumn = document.querySelector("#finished");
 const finishButton = document.querySelector("#finished-addtask-btn")
@@ -141,6 +183,7 @@ console.log(savedtasksFinish)
 
 
 if (savedtasksFinish) {
+  if (login === "admin"){
   tasksFinish = JSON.parse(savedtasksFinish);
   console.log(finishedColumn);
   tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
@@ -155,10 +198,42 @@ if (savedtasksFinish) {
         <p class="taskText">Задача: <b>${selectedTaskFinish.description}</b></p>
       </div>
     `;
-
+    const finishedTask = document.querySelector("#finishedTasks");
+    finishedTask.textContent = tasksFinish.length === 0 ? `Finished tasks: 0` : `Finished tasks: ${tasksFinish.length}`;
     finishedColumn.appendChild(newItem);
   });
   
+} else if (login === "test"){
+  tasksFinish = JSON.parse(savedtasksFinish);
+  console.log(finishedColumn);
+  tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
+
+ 
+  tasksFinish.forEach((selectedTaskFinish) => {
+    const newItem = document.createElement('li');
+    if (selectedTaskFinish.user === "test"){
+    newItem.innerHTML = `
+      <div class="TicketBlock">
+        <p>Выбранный пользователь: <b>${selectedTaskFinish.user}</b></p>
+        <p class="taskTitle">Заголовок: <b>${selectedTaskFinish.title}</b></p>
+        <p class="taskText">Задача: <b>${selectedTaskFinish.description}</b></p>
+      </div>
+    `;
+  }
+    finishedColumn.appendChild(newItem);
+
+    let testUserFinished = 0
+  
+  
+    tasksFinish.forEach((task) => {
+    if(task.user === "test"){
+      testUserFinished++
+    }
+    });
+    const finishedTask = document.querySelector("#finishedTasks");
+      finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+  });
+}
 }
 
 
@@ -193,6 +268,17 @@ submitToGoInFinish.addEventListener('click', () => {
 
   finishedColumn.appendChild(newItem);
 
+  let testUserFinished = 0
+  
+  
+  tasksFinish.forEach((task) => {
+  if(task.user === "test"){
+    testUserFinished++
+  }
+  });
+  const finishedTask = document.querySelector("#finishedTasks");
+    finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+
   selectTicketFinich.options[selectedTaskIndexFinish].remove();
 
   // Обновляем индексы оставшихся элементов списка
@@ -203,6 +289,8 @@ submitToGoInFinish.addEventListener('click', () => {
   tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
 
   localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+  localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+  localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 
   contSelectFinish.classList.remove("modalSelect")
 });
@@ -215,8 +303,8 @@ console.log(savedTasksinProgress)
 
 
 
-
 if (savedTasksinProgress) {
+  if (login ==="admin"){
   tasksInProgress = JSON.parse(savedTasksinProgress);
   console.log(tasksInProgress);
   tasksReady.length === 0 ? inprogressButton.disabled = true : inprogressButton.disabled = false;
@@ -231,10 +319,13 @@ if (savedTasksinProgress) {
         <p class="taskText">Задача: <b>${task.description}</b></p>
       </div>
     `;
-
+    
     inProgressColumn.appendChild(newItem);
 
-   
+    const finishedTask = document.querySelector("#finishedTasks");
+    finishedTask.textContent = tasksFinish.length === 0 ? `Finished tasks: 0` : `Finished tasks: ${tasksFinish.length}`;
+    const activeTaskBlock = document.querySelector("#activeTasks");
+    activeTaskBlock.textContent = tasksReady.length === 0 ? `Active tasks: 0` :`Active tasks: ${tasksReady.length}`;
 
     tasksInProgress.forEach((task, index) => {
       const option = document.createElement('option');
@@ -253,8 +344,71 @@ if (savedTasksinProgress) {
       option.text = task.title;
       selectTicketFinich.appendChild(option);
     });
+    
   });
+} else if (login === "test"){
+  tasksInProgress = JSON.parse(savedTasksinProgress);
+  console.log(tasksInProgress);
+  tasksReady.length === 0 ? inprogressButton.disabled = true : inprogressButton.disabled = false;
+  tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
+ 
+  tasksInProgress.forEach((task, index) => {
+    const newItem = document.createElement('li');
+    if (task.user === "test"){
+    newItem.innerHTML = `
+      <div class="TicketBlock">
+        <p>Выбранный пользователь: <b>${task.user}</b></p>
+        <p class="taskTitle">Заголовок: <b>${task.title}</b></p>
+        <p class="taskText">Задача: <b>${task.description}</b></p>
+      </div>
+    `;
+    }
+    inProgressColumn.appendChild(newItem);
+
+   
+
+    tasksInProgress.forEach((task, index) => {
+      if (task.user === "test") {
+      const option = document.createElement('option');
+      option.value = index;
+      option.text = task.title;
+      selectTicketFinich.appendChild(option);
+      
+      }
+
+    
+    });
   
+    selectTicketFinich.innerHTML = '';
+  
+   
+  
+    tasksInProgress.forEach((task, index) => {
+      if (task.user === "test") {
+      const option = document.createElement('option');
+      option.value = index;
+      option.text = task.title;
+      selectTicketFinich.appendChild(option);
+      }
+      
+    });
+
+    let testUserFinished = 0
+  
+  
+    tasksFinish.forEach((task) => {
+    if(task.user === "test"){
+      testUserFinished++
+    }
+    });
+    const finishedTask = document.querySelector("#finishedTasks");
+      finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+
+    
+  });
+
+
+}
 }
 /////////////////////////////////////////////////////////////////////////////
 
@@ -282,7 +436,14 @@ submitToGo.addEventListener('click', () => {
     </div>
   `;
 
+
   inProgressColumn.appendChild(newItem);
+
+  const activeTaskBlock = document.querySelector("#activeTasks");
+  activeTaskBlock.textContent = tasksReady.length === 0 ? `Active tasks: 0` :`Active tasks: ${tasksReady.length}`;
+
+    const finishedTask = document.querySelector("#finishedTasks");
+    finishedTask.textContent = tasksFinish.length === 0 ? `Finished tasks: 0` : `Finished tasks: ${tasksFinish.length}`;
 
   selectTicket.options[selectedTaskIndex].remove();
 
@@ -314,20 +475,47 @@ submitToGo.addEventListener('click', () => {
     selectTicketFinich.appendChild(option);
   });
 
+  let testUserFinished = 0
+  
+  
+tasksFinish.forEach((task) => {
+if(task.user === "test"){
+  testUserFinished++
+}
+});
+//const finishedTask = document.querySelector("#finishedTasks");
+  finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+
      // Сохраняем массив в локальное хранилище
      localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+     localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 });
 
 
+inProgressColumn.addEventListener('dragover', (event) => {
+  event.preventDefault(); // Предотвратить действие по умолчанию (обычно запретить перетаскивание в эту область)
+});
+
+inProgressColumn.addEventListener('drop', (event) => {
+  event.preventDefault();
+  const selectedTaskData = event.dataTransfer.getData('text/plain');
+  const selectedTask = JSON.parse(selectedTaskData);
+  // Выполнить действия с выбранной задачей
+});
 
 
 //////////////////////////////////////////Колонка Ready и вывод из массива в селект задачи/////////////////////////////////////////////
+
+
+
 if (savedTasksReady) {
+  if (login === "admin"){
   tasksReady = JSON.parse(savedTasksReady);
   console.log(tasksReady);
   tasksReady.length === 0 ? inprogressButton.disabled = true : inprogressButton.disabled = false;
   tasksReady.forEach((task, index) => {
     const newItem = document.createElement('li');
+    newItem.setAttribute('draggable', 'true');
     newItem.innerHTML = `
       <div class="TicketBlock">
         <p>Выбранный пользователь: <b>${task.user}</b></p>
@@ -336,7 +524,20 @@ if (savedTasksReady) {
       </div>
     `;
 
+    newItem.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('text/plain', newItem.innerHTML);
+      event.currentTarget.classList.add('dragging');
+    });
+    
+    newItem.addEventListener('dragend', (event) => {
+      event.currentTarget.classList.remove('dragging');
+    });
     readyColumn.appendChild(newItem);
+
+    const activeTaskBlock = document.querySelector("#activeTasks");
+    activeTaskBlock.textContent = tasksReady.length === 0 ? `Active tasks: 0` :`Active tasks: ${tasksReady.length}`;
+    const finishedTask = document.querySelector("#finishedTasks");
+    finishedTask.textContent = tasksFinish.length === 0 ? `Finished tasks: 0` : `Finished tasks: ${tasksFinish.length}`;
 
     tasksReady.forEach((task, index) => {
       const option = document.createElement('option');
@@ -353,13 +554,91 @@ if (savedTasksReady) {
       option.text = task.title;
       selectTicket.appendChild(option);
     });
+
   });
+} else if (login === "test") {
+  tasksReady = JSON.parse(savedTasksReady);
+  console.log(tasksReady);
+  tasksReady.length === 0 ? (inprogressButton.disabled = true) : (inprogressButton.disabled = false);
+
+  tasksReady.forEach((task, index) => {
+    const newItem = document.createElement('li');
+    if (task.user === "test") {
+      
+      newItem.setAttribute('draggable', 'true');
+      newItem.innerHTML = `
+        <div class="TicketBlock">
+          <p>Выбранный пользователь: <b>${task.user}</b></p>
+          <p class="taskTitle">Заголовок: <b>${task.title}</b></p>
+          <p class="taskText">Задача: <b>${task.description}</b></p>
+        </div>
+      `;
+
+      newItem.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('text/plain', newItem.innerHTML);
+        event.currentTarget.classList.add('dragging');
+      });
+
+      newItem.addEventListener('dragend', (event) => {
+        event.currentTarget.classList.remove('dragging');
+      });
+
+      readyColumn.appendChild(newItem);
+
+      const option = document.createElement('option');
+      option.value = index;
+      option.text = task.title;
+      selectTicket.appendChild(option);
+    }
+  });
+
+  let testUserTasksCount = 0;
+ 
+  tasksReady.forEach((task, index) => {
+    if (task.user === "test") {
+      const option = document.createElement('option');
+      option.value = index;
+      option.text = task.title;
+      selectTicket.appendChild(option);
+    }
+  });
+
+  // Очищаем селект перед добавлением новых опций
+  selectTicket.innerHTML = "";
+
+  tasksReady.forEach((task, index) => {
+    if (task.user === "test") {
+      const option = document.createElement('option');
+      option.value = index;
+      option.text = task.title;
+      selectTicket.appendChild(option);
+
+      testUserTasksCount++;
+    }
+  });
+  const activeTaskBlock = document.querySelector("#activeTasks");
+  activeTaskBlock.textContent = `Active tasks: ${testUserTasksCount}`;
+
+  let testUserFinished = 0
+  
+  
+tasksFinish.forEach((task) => {
+if(task.user === "test"){
+  testUserFinished++
 }
+});
+const finishedTask = document.querySelector("#finishedTasks");
+  finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+
+}
+}
+
 
 addTicket.addEventListener('click', (e) => {
   e.preventDefault();
   console.log('Кнопка нажата!');
   const addUser = document.querySelector('#selectUser').value;
+
   const addTitle = document.querySelector('#textTitlie').value;
   const addText = document.querySelector('#textTicket').value;
   console.log(addUser);
@@ -369,9 +648,9 @@ addTicket.addEventListener('click', (e) => {
   console.log(task);
   tasksReady.push(task);
   console.log(tasksReady);
-
  
     const newItem = document.createElement('li');
+    newItem.setAttribute('draggable', 'true');
     newItem.innerHTML = `
       <div class="TicketBlock">
         <p>Выбранный пользователь: <b>${task.user}</b></p>
@@ -380,8 +659,21 @@ addTicket.addEventListener('click', (e) => {
       </div>
     `;
 
+    newItem.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('text/plain', newItem.innerHTML);
+      event.currentTarget.classList.add('dragging');
+    });
+  
+    newItem.addEventListener('dragend', (event) => {
+      event.currentTarget.classList.remove('dragging');
+    });
+
     readyColumn.appendChild(newItem);
   
+    const activeTaskBlock = document.querySelector("#activeTasks");
+    activeTaskBlock.textContent = tasksReady.length === 0 ? `Active tasks: 0` :`Active tasks: ${tasksReady.length}`;
+    const finishedTask = document.querySelector("#finishedTasks");
+    finishedTask.textContent = tasksFinish.length === 0 ? `Finished tasks: 0` : `Finished tasks: ${tasksFinish.length}`;
 
   tasksReady.forEach((task, index) => {
     const option = document.createElement('option');
@@ -400,6 +692,8 @@ addTicket.addEventListener('click', (e) => {
   });
 
   // Сохраняем массив tasksReady в локальное хранилище
+  localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+  localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
   localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 
   tasksReady.length ? (inprogressButton.disabled = false) : (inprogressButton.disabled = true);
@@ -409,6 +703,4 @@ addTicket.addEventListener('click', (e) => {
   modal.classList.add('hidden');
 });
 })
-
-
 
