@@ -303,7 +303,9 @@ console.log(savedTasksinProgress)
 
 
 
+
 if (savedTasksinProgress) {
+  
   if (login ==="admin"){
   tasksInProgress = JSON.parse(savedTasksinProgress);
   console.log(tasksInProgress);
@@ -344,6 +346,7 @@ if (savedTasksinProgress) {
       option.text = task.title;
       selectTicketFinich.appendChild(option);
     });
+    console.log(inProgressColumn)
     
   });
 } else if (login === "test"){
@@ -410,6 +413,25 @@ if (savedTasksinProgress) {
 
 }
 }
+
+
+inProgressColumn.addEventListener('dragenter', (event) => {
+  event.currentTarget.classList.add('drag-over');
+});
+
+inProgressColumn.addEventListener('dragleave', (event) => {
+  event.currentTarget.classList.remove('drag-over');
+});
+
+inProgressColumn.addEventListener('drop', (event) => {
+  event.preventDefault();
+  const data = event.dataTransfer.getData('text/plain');
+  const newItem = document.createElement('li');
+  newItem.innerHTML = data;
+  inProgressColumn.appendChild(newItem);
+  event.currentTarget.classList.remove('drag-over');
+});
+
 /////////////////////////////////////////////////////////////////////////////
 
 submitToGo.addEventListener('click', () => {
@@ -492,16 +514,6 @@ if(task.user === "test"){
 });
 
 
-inProgressColumn.addEventListener('dragover', (event) => {
-  event.preventDefault(); // Предотвратить действие по умолчанию (обычно запретить перетаскивание в эту область)
-});
-
-inProgressColumn.addEventListener('drop', (event) => {
-  event.preventDefault();
-  const selectedTaskData = event.dataTransfer.getData('text/plain');
-  const selectedTask = JSON.parse(selectedTaskData);
-  // Выполнить действия с выбранной задачей
-});
 
 
 //////////////////////////////////////////Колонка Ready и вывод из массива в селект задачи/////////////////////////////////////////////
@@ -578,7 +590,7 @@ if (savedTasksReady) {
         event.dataTransfer.setData('text/plain', newItem.innerHTML);
         event.currentTarget.classList.add('dragging');
       });
-
+      
       newItem.addEventListener('dragend', (event) => {
         event.currentTarget.classList.remove('dragging');
       });
@@ -663,7 +675,7 @@ addTicket.addEventListener('click', (e) => {
       event.dataTransfer.setData('text/plain', newItem.innerHTML);
       event.currentTarget.classList.add('dragging');
     });
-  
+    
     newItem.addEventListener('dragend', (event) => {
       event.currentTarget.classList.remove('dragging');
     });

@@ -317,3 +317,12 @@ li {
   line-height: normal;
   border: none;
 }
+
+.dragging {
+  opacity: 0.5;
+  border: #0067A3 5px dashed;
+}
+
+.drag-over {
+  border: 2px dashed blue;
+}
