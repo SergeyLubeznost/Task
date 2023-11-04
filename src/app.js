@@ -196,10 +196,46 @@ if (savedtasksFinish) {
         <p>Выбранный пользователь: <b>${selectedTaskFinish.user}</b></p>
         <p class="taskTitle">Заголовок: <b>${selectedTaskFinish.title}</b></p>
         <p class="taskText">Задача: <b>${selectedTaskFinish.description}</b></p>
+        <button id="removeTikket" class="remove">Remove</button>
       </div>
     `;
     const finishedTask = document.querySelector("#finishedTasks");
     finishedTask.textContent = tasksFinish.length === 0 ? `Finished tasks: 0` : `Finished tasks: ${tasksFinish.length}`;
+
+    const removeButton = newItem.querySelector('.remove');
+    removeButton.addEventListener('click', () => {
+      // Удаление задачи из DOM
+      newItem.remove();
+    
+      // Удаление задачи из массива
+      const selectedTaskIndex = tasksFinish.indexOf(selectedTaskFinish);
+      if (selectedTaskIndex > -1) {
+        tasksFinish.splice(selectedTaskIndex, 1);
+      }
+
+ 
+
+  let testUserFinished = 0
+  
+  
+  tasksFinish.forEach((task) => {
+  if(task.user === "test"){
+    testUserFinished++
+  }
+  });
+  const finishedTask = document.querySelector("#finishedTasks");
+    finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+  
+    
+      tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
+    
+      // Сохраняем массив tasksReady в локальное хранилище
+      localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+      localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+      localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+    });
+
+
     finishedColumn.appendChild(newItem);
   });
   
@@ -263,8 +299,46 @@ submitToGoInFinish.addEventListener('click', () => {
       <p>Выбранный пользователь: <b>${selectedTaskFinish.user}</b></p>
       <p class="taskTitle">Заголовок: <b>${selectedTaskFinish.title}</b></p>
       <p class="taskText">Задача: <b>${selectedTaskFinish.description}</b></p>
+      <button id="removeTikket" class="remove">Remove</button>
     </div>
   `;
+
+
+  const removeButton = newItem.querySelector('.remove');
+  removeButton.addEventListener('click', () => {
+    // Удаление задачи из DOM
+    newItem.remove();
+  
+    // Удаление задачи из массива
+    const selectedTaskIndex = tasksFinish.indexOf(selectedTaskFinish);
+    if (selectedTaskIndex > -1) {
+      tasksFinish.splice(selectedTaskIndex, 1);
+    }
+
+      // Обновляем индексы оставшихся элементов списка
+for (let i = selectedTaskIndexFinish; i < selectTicketFinich.options.length; i++) {
+  selectTicketFinich.options[i].value = parseInt(selectTicketFinich.options[i].value) - 1;
+}
+
+let testUserFinished = 0
+
+
+tasksFinish.forEach((task) => {
+if(task.user === "test"){
+  testUserFinished++
+}
+});
+const finishedTask = document.querySelector("#finishedTasks");
+  finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+
+  
+    tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
+  
+    // Сохраняем массив tasksReady в локальное хранилище
+    localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+    localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+    localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+  });
 
   finishedColumn.appendChild(newItem);
 
@@ -301,7 +375,116 @@ submitToGoInFinish.addEventListener('click', () => {
 const savedTasksinProgress = localStorage.getItem('tasksInProgress');
 console.log(savedTasksinProgress)
 
+finishedColumn.addEventListener('dragenter', (event) => {
+  event.currentTarget.classList.add('drag-over');
+});
 
+finishedColumn.addEventListener('dragleave', (event) => {
+  event.currentTarget.classList.remove('drag-over');
+});
+finishedColumn.addEventListener('dragover', (event) => {
+  event.preventDefault();
+});
+
+finishedColumn.addEventListener('drop', (event) => {
+  event.preventDefault();
+
+  const selectedTaskIndexFinish = selectTicketFinich.value; // Получаем индекс выбранной задачи из <select>
+  const selectedTaskFinish = tasksInProgress.splice(selectedTaskIndexFinish, 1)[0]; // Удаляем выбранный элемент из массива
+
+  tasksFinish.push(selectedTaskFinish);
+  console.log(tasksFinish)
+
+  console.log(selectedTaskIndexFinish);
+  console.log(selectedTaskFinish);
+
+  const selectedTicketBlock = inProgressColumn.childNodes[selectedTaskIndexFinish];
+  inProgressColumn.removeChild(selectedTicketBlock);
+ 
+////////////////////////////////////////////
+  // Добавляем удаленный элемент в другую колонку
+  const data = event.dataTransfer.getData('text/plain');
+ const newItem = document.createElement('li');
+ newItem.setAttribute('draggable', 'true');
+ newItem.innerHTML = data;
+ finishedColumn.appendChild(newItem);
+///////////////////////////////////////////////////////
+ const removeButton = newItem.querySelector('.remove');
+    removeButton.addEventListener('click', () => {
+      // Удаление задачи из DOM
+      newItem.remove();
+    
+      // Удаление задачи из массива
+      const selectedTaskIndex = tasksFinish.indexOf(selectedTaskFinish);
+      if (selectedTaskIndex > -1) {
+        tasksFinish.splice(selectedTaskIndex, 1);
+      }
+
+        // Обновляем индексы оставшихся элементов списка
+  for (let i = selectedTaskIndexFinish; i < selectTicketFinich.options.length; i++) {
+    selectTicketFinich.options[i].value = parseInt(selectTicketFinich.options[i].value) - 1;
+  }
+
+  let testUserFinished = 0
+  
+  
+  tasksFinish.forEach((task) => {
+  if(task.user === "test"){
+    testUserFinished++
+  }
+  });
+  const finishedTask = document.querySelector("#finishedTasks");
+    finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+  
+    
+      tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
+    
+      // Сохраняем массив tasksReady в локальное хранилище
+      localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+      localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+      localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+    });
+
+
+
+ event.currentTarget.classList.remove('drag-over');
+
+ newItem.addEventListener('dragstart', (event) => {
+  event.dataTransfer.setData('text/plain', newItem.innerHTML);
+  event.currentTarget.classList.add('dragging');
+});
+
+newItem.addEventListener('dragend', (event) => {
+  event.currentTarget.classList.remove('dragging');
+});
+
+  let testUserFinished = 0
+  
+  
+  tasksFinish.forEach((task) => {
+  if(task.user === "test"){
+    testUserFinished++
+  }
+  });
+  const finishedTask = document.querySelector("#finishedTasks");
+    finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+
+  selectTicketFinich.options[selectedTaskIndexFinish].remove();
+
+  // Обновляем индексы оставшихся элементов списка
+  for (let i = selectedTaskIndexFinish; i < selectTicketFinich.options.length; i++) {
+    selectTicketFinich.options[i].value = parseInt(selectTicketFinich.options[i].value) - 1;
+  }
+  
+  tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
+
+  localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+  localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+  localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+
+  contSelectFinish.classList.remove("modalSelect")
+ //update
+});
 
 
 if (savedTasksinProgress) {
@@ -314,14 +497,43 @@ if (savedTasksinProgress) {
  
   tasksInProgress.forEach((task, index) => {
     const newItem = document.createElement('li');
+    newItem.setAttribute('draggable', 'true');
     newItem.innerHTML = `
       <div class="TicketBlock">
         <p>Выбранный пользователь: <b>${task.user}</b></p>
         <p class="taskTitle">Заголовок: <b>${task.title}</b></p>
         <p class="taskText">Задача: <b>${task.description}</b></p>
+        <button id="removeTikket" class="remove">Remove</button>
       </div>
     `;
+    newItem.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('text/plain', newItem.innerHTML);
+      event.currentTarget.classList.add('dragging');
+    });
     
+    newItem.addEventListener('dragend', (event) => {
+      event.currentTarget.classList.remove('dragging');
+    });
+
+    const removeButton = newItem.querySelector('.remove');
+    removeButton.addEventListener('click', () => {
+      // Удаление задачи из DOM
+      newItem.remove();
+    
+      // Удаление задачи из массива
+      const selectedTaskIndex = tasksInProgress.indexOf(task);
+      if (selectedTaskIndex > -1) {
+        tasksInProgress.splice(selectedTaskIndex, 1);
+      }
+    
+      tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
+    
+      // Сохраняем массив tasksReady в локальное хранилище
+      localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+      localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+    });
+
+
     inProgressColumn.appendChild(newItem);
 
     const finishedTask = document.querySelector("#finishedTasks");
@@ -357,6 +569,7 @@ if (savedTasksinProgress) {
  
   tasksInProgress.forEach((task, index) => {
     const newItem = document.createElement('li');
+    newItem.setAttribute('draggable', 'true');
     if (task.user === "test"){
     newItem.innerHTML = `
       <div class="TicketBlock">
@@ -366,6 +579,17 @@ if (savedTasksinProgress) {
       </div>
     `;
     }
+
+    newItem.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('text/plain', newItem.innerHTML);
+      event.currentTarget.classList.add('dragging');
+    });
+    
+    newItem.addEventListener('dragend', (event) => {
+      event.currentTarget.classList.remove('dragging');
+    });
+
+    
     inProgressColumn.appendChild(newItem);
 
    
@@ -422,14 +646,115 @@ inProgressColumn.addEventListener('dragenter', (event) => {
 inProgressColumn.addEventListener('dragleave', (event) => {
   event.currentTarget.classList.remove('drag-over');
 });
+inProgressColumn.addEventListener('dragover', (event) => {
+  event.preventDefault();
+});
 
 inProgressColumn.addEventListener('drop', (event) => {
   event.preventDefault();
+ 
+
+  //изменения
+
+  const selectedTaskIndex = selectTicket.value; // Получаем индекс выбранной задачи из <select>
+  const selectedTask = tasksReady.splice(selectedTaskIndex, 1)[0]; // Удаляем выбранный элемент из массива
+
+  tasksInProgress.push(selectedTask);
+  console.log(tasksInProgress)
+
+  console.log(selectedTaskIndex);
+  console.log(selectedTask);
+
+  const selectedTicketBlock = readyColumn.childNodes[selectedTaskIndex];
+  readyColumn.removeChild(selectedTicketBlock);
+ 
+
+  // Добавляем удаленный элемент в другую колонку
   const data = event.dataTransfer.getData('text/plain');
   const newItem = document.createElement('li');
+  newItem.setAttribute('draggable', 'true');
   newItem.innerHTML = data;
   inProgressColumn.appendChild(newItem);
   event.currentTarget.classList.remove('drag-over');
+
+  newItem.addEventListener('dragstart', (event) => {
+    event.dataTransfer.setData('text/plain', newItem.innerHTML);
+    event.currentTarget.classList.add('dragging');
+  });
+  
+  newItem.addEventListener('dragend', (event) => {
+    event.currentTarget.classList.remove('dragging');
+  });
+
+  const removeButton = newItem.querySelector('.remove');
+  removeButton.addEventListener('click', () => {
+    // Удаление задачи из DOM
+    newItem.remove();
+  
+    // Удаление задачи из массива
+    const selectedTaskIndex = tasksInProgress.indexOf(selectedTask);
+    if (selectedTaskIndex > -1) {
+      tasksInProgress.splice(selectedTaskIndex, 1);
+    }
+  
+    tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
+  
+    // Сохраняем массив tasksReady в локальное хранилище
+    localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+    localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+  });
+
+  const activeTaskBlock = document.querySelector("#activeTasks");
+  activeTaskBlock.textContent = tasksReady.length === 0 ? `Active tasks: 0` :`Active tasks: ${tasksReady.length}`;
+
+    const finishedTask = document.querySelector("#finishedTasks");
+    finishedTask.textContent = tasksFinish.length === 0 ? `Finished tasks: 0` : `Finished tasks: ${tasksFinish.length}`;
+
+  selectTicket.options[selectedTaskIndex].remove();
+
+  // Обновляем индексы оставшихся элементов списка
+  for (let i = selectedTaskIndex; i < selectTicket.options.length; i++) {
+    selectTicket.options[i].value = parseInt(selectTicket.options[i].value) - 1;
+  }
+  
+  tasksReady.length === 0 ? inprogressButton.disabled = true : inprogressButton.disabled = false;
+  tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
+
+  contSelect.classList.remove("modalSelect")
+
+  tasksInProgress.forEach((task, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.text = task.title;
+    selectTicketFinich.appendChild(option);
+  });
+
+  selectTicketFinich.innerHTML = '';
+
+ 
+
+  tasksInProgress.forEach((task, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.text = task.title;
+    selectTicketFinich.appendChild(option);
+  });
+
+  let testUserFinished = 0
+  
+  
+tasksFinish.forEach((task) => {
+if(task.user === "test"){
+  testUserFinished++
+}
+});
+//const finishedTask = document.querySelector("#finishedTasks");
+  finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+
+     // Сохраняем массив в локальное хранилище
+     localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+     localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+ 
 });
 
 /////////////////////////////////////////////////////////////////////////////
@@ -450,14 +775,41 @@ submitToGo.addEventListener('click', () => {
 
   // Добавляем удаленный элемент в другую колонку
   const newItem = document.createElement('li');
+  newItem.setAttribute('draggable', 'true');
   newItem.innerHTML = `
     <div class="TicketBlock">
       <p>Выбранный пользователь: <b>${selectedTask.user}</b></p>
       <p class="taskTitle">Заголовок: <b>${selectedTask.title}</b></p>
       <p class="taskText">Задача: <b>${selectedTask.description}</b></p>
+      <button id="removeTikket" class="remove">Remove</button>
     </div>
   `;
+  newItem.addEventListener('dragstart', (event) => {
+    event.dataTransfer.setData('text/plain', newItem.innerHTML);
+    event.currentTarget.classList.add('dragging');
+  });
+  
+  newItem.addEventListener('dragend', (event) => {
+    event.currentTarget.classList.remove('dragging');
+  });
 
+  const removeButton = newItem.querySelector('.remove');
+  removeButton.addEventListener('click', () => {
+    // Удаление задачи из DOM
+    newItem.remove();
+  
+    // Удаление задачи из массива
+    const selectedTaskIndex = tasksInProgress.indexOf(selectedTask);
+    if (selectedTaskIndex > -1) {
+      tasksInProgress.splice(selectedTaskIndex, 1);
+    }
+  
+    tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
+  
+    // Сохраняем массив tasksReady в локальное хранилище
+    localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+    localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+  });
 
   inProgressColumn.appendChild(newItem);
 
@@ -533,6 +885,7 @@ if (savedTasksReady) {
         <p>Выбранный пользователь: <b>${task.user}</b></p>
         <p class="taskTitle">Заголовок: <b>${task.title}</b></p>
         <p class="taskText">Задача: <b>${task.description}</b></p>
+        <button id="removeTikket" class="remove">Remove</button>
       </div>
     `;
 
@@ -544,6 +897,28 @@ if (savedTasksReady) {
     newItem.addEventListener('dragend', (event) => {
       event.currentTarget.classList.remove('dragging');
     });
+
+    //
+    const removeButton = newItem.querySelector('.remove');
+  removeButton.addEventListener('click', () => {
+    // Удаление задачи из DOM
+    newItem.remove();
+  
+    // Удаление задачи из массива
+    const selectedTaskIndex = tasksReady.indexOf(task);
+    if (selectedTaskIndex > -1) {
+      tasksReady.splice(selectedTaskIndex, 1);
+    }
+  
+    // Пересчет и обновление числа задач
+    const activeTaskBlock = document.querySelector("#activeTasks");
+    activeTaskBlock.textContent = tasksReady.length === 0 ? `Active tasks: 0` : `Active tasks: ${tasksReady.length}`;
+  
+    tasksReady.length === 0 ? inprogressButton.disabled = true : inprogressButton.disabled = false;
+  
+    // Сохраняем массив tasksReady в локальное хранилище
+    localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+  });
     readyColumn.appendChild(newItem);
 
     const activeTaskBlock = document.querySelector("#activeTasks");
@@ -661,26 +1036,48 @@ addTicket.addEventListener('click', (e) => {
   tasksReady.push(task);
   console.log(tasksReady);
  
-    const newItem = document.createElement('li');
-    newItem.setAttribute('draggable', 'true');
-    newItem.innerHTML = `
-      <div class="TicketBlock">
-        <p>Выбранный пользователь: <b>${task.user}</b></p>
-        <p class="taskTitle">Заголовок: <b>${task.title}</b></p>
-        <p class="taskText">Задача: <b>${task.description}</b></p>
-      </div>
-    `;
+  const newItem = document.createElement('li'); // Создаем новый элемент li
+  newItem.setAttribute('draggable', 'true');
+  newItem.innerHTML = `
+    <div class="TicketBlock">
+      <p>Выбранный пользователь: <b>${task.user}</b></p>
+      <p class="taskTitle">Заголовок: <b>${task.title}</b></p>
+      <p class="taskText">Задача: <b>${task.description}</b></p>
+      <button class="remove">Remove</button>
+    </div>
+  `;
 
-    newItem.addEventListener('dragstart', (event) => {
-      event.dataTransfer.setData('text/plain', newItem.innerHTML);
-      event.currentTarget.classList.add('dragging');
-    });
+  newItem.addEventListener('dragstart', (event) => {
+    event.dataTransfer.setData('text/plain', newItem.innerHTML);
+    event.currentTarget.classList.add('dragging');
+  });
+
+  newItem.addEventListener('dragend', (event) => {
+    event.currentTarget.classList.remove('dragging');
+  });
+  
+  const removeButton = newItem.querySelector('.remove');
+  removeButton.addEventListener('click', () => {
     
-    newItem.addEventListener('dragend', (event) => {
-      event.currentTarget.classList.remove('dragging');
-    });
-
-    readyColumn.appendChild(newItem);
+    newItem.remove();
+  
+    
+    const selectedTaskIndex = tasksReady.indexOf(task);
+    if (selectedTaskIndex > -1) {
+      tasksReady.splice(selectedTaskIndex, 1);
+    }
+  
+    
+    const activeTaskBlock = document.querySelector("#activeTasks");
+    activeTaskBlock.textContent = tasksReady.length === 0 ? `Active tasks: 0` : `Active tasks: ${tasksReady.length}`;
+  
+    tasksReady.length === 0 ? inprogressButton.disabled = true : inprogressButton.disabled = false;
+  
+    
+    localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+  });
+  
+  readyColumn.appendChild(newItem);
   
     const activeTaskBlock = document.querySelector("#activeTasks");
     activeTaskBlock.textContent = tasksReady.length === 0 ? `Active tasks: 0` :`Active tasks: ${tasksReady.length}`;
@@ -715,4 +1112,6 @@ addTicket.addEventListener('click', (e) => {
   modal.classList.add('hidden');
 });
 })
+
+
 
