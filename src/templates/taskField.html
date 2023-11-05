@@ -5,6 +5,30 @@
       <div class="app-task-container">
         <ul class="ulList" id="ready"></ul>
       </div>
+      <div id="modalTikketViev" class="">
+        <div id="modalTicket" class="hidden">
+        
+            <div class="contInput">
+                <select id="selectUser"  class="select-css"> 
+                    <option>test</option> 
+                    <option>test2</option> 
+                    </select>
+            </div>
+        
+            <div class="contInput">
+                <label for="textTitlie">Введите заголовок</label>
+                <input id="textTitlie" type="text">
+                </div>
+            
+                <div class="contInput">
+                <label for="textTicket">Введите текст</label>
+                <input id="textTicket" type="text">
+                </div>
+            
+                <button id="submitTicket">Submit</button>
+            
+            </div>
+            </div>
       <button  id="ready-addtask-btn"   class="buttonCard">
         + Add Card
       </button>
@@ -15,6 +39,22 @@
       <div id="dragDrop" class="app-task-container">
         <ul class="ulList" id="inprogress"></ul>
       </div>
+      <div id="contSelect" class="hidden">
+        <label for="selectTicket">Выберите задачу</label>
+        <select id="selectTicket"  class="select-css"> 
+       
+          </select>
+          <div class="contInputProgress">
+          <label for="textEditTitlie">Введите заголовок</label>
+          <input id="textEditTitlie" type="text">
+          </div>
+      
+          <div class="contInputProgress">
+          <label for="textEditTicket">Введите текст</label>
+          <input id="textEditTicket" type="text">
+          </div>
+        <button id="submitToGo">Submit</button>
+    </div>
       <button
         class="buttonCard"
         id="inprogress-addtask-btn"
@@ -22,6 +62,7 @@
       >
         + Add Card
       </button>
+      
     </div>
   
     <div class="cardTask">
@@ -29,6 +70,14 @@
       <div class="app-task-container">
         <ul class="ulList" id="finished"></ul>
       </div>
+      <div id="contSelectFinish" class="hidden">
+        <label for="selectTicket">Выберите задачу</label>
+        <select id="selectTicketFinich"  class="select-css"> 
+       
+          </select>
+    
+        <button id="submitToGoInFinish">Submit</button>
+    </div>
       <button
         class="buttonCard"
         id="finished-addtask-btn"

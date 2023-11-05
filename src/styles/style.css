@@ -148,13 +148,14 @@ margin-right: 19px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;;
+  width: 100vw;
   min-height: 458px;
-
+  flex-wrap: wrap;
   
 }
 .cardTask{
-  width: 328px;
+  width: 500px;
+
   min-height: 384px;
   flex-shrink: 0;
   border-radius: 10px;
@@ -215,7 +216,7 @@ margin: 19px 0px 12px 11px;
 
 .myModal{
   width: 500px;
-  min-height: 500px;
+  min-height: 246px;
   border-radius: 10px;
   background: #EBECF0;
   display: flex;
@@ -224,21 +225,22 @@ margin: 19px 0px 12px 11px;
   align-items: center;
   margin-left: auto;
   margin-right: auto;
-
+  margin-bottom: -21%;
+  z-index: 2;
 }
 
 .modalWindow{
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  min-height: 500px;
-
+  min-height: 246px;
+ 
   margin: 5px;
 }
 
 .modalWindow input{
   width: 500px;
-  height: 70px;
+  height: 32px;
   border-radius: 10px;
   border: none;
  
@@ -255,7 +257,7 @@ line-height: normal;
 
 .modalWindow select{
   width: 500px;
-  height: 70px;
+  height: 32px;
   border-radius: 10px;
   border: none;
  
@@ -264,12 +266,12 @@ line-height: normal;
 .modalWindow button{
   border-radius: 5px;
   background: #0079BF;
-  width: 500px;
-  height: 70px;
+  width: 116px;
+  height: 32px;
   color: #FFF;
   text-align: center;
   font-family: Roboto;
-  font-size: 25px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -285,33 +287,34 @@ font-size: 18px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
-overflow-y: auto;
-width: 250px;
+width: 433px;
+padding: 3px;
 margin-bottom: 9px;
 box-shadow: 2px 2px 4px black;
 }
 
-.app-task-container{
-  overflow-y: auto;
-}
+
 
 li {
   list-style: none;
-  width: 255px;
+  width:470px;
 }
 
 /* Стилизация окна выбора тиккета */
 
 .modalSelect{
   width: 500px;
-  min-height: 500px;
+  min-height: 246px;
   border-radius: 10px;
   background: #EBECF0;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center;
-  margin-left: 21%;
+  align-items: flex-start;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: -21%;
+  z-index: 2;
 }
 
 .modalSelect label{
@@ -323,9 +326,24 @@ li {
   line-height: normal;
 }
 
+.contInputProgress label{
+  color: #000;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.contInputProgress input{
+  width: 500px;
+  height: 32px;
+  border-radius: 10px;
+  border: none;
+}
+
 .modalSelect select{
   width: 500px;
-  height: 70px;
+  height: 32px;
   border-radius: 10px;
   border: none;
 }
@@ -333,12 +351,12 @@ li {
 .modalSelect button {
   border-radius: 5px;
   background: #0079BF;
-  width: 500px;
-  height: 70px;
+  width: 116px;
+  height: 32px;
   color: #FFF;
   text-align: center;
   font-family: Roboto;
-  font-size: 25px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -354,7 +372,7 @@ li {
 }
 
 .ulList{
-  width: 328px;
+  width: 500px;
   min-height: 300px;
 }
 

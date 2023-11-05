@@ -59,7 +59,7 @@ loginForm.addEventListener("submit", function (e) {
     }
 
     if (!authUser(login, password)) {
-        alert("Error");
+      return  alert("Error");
     }
 
 
@@ -205,7 +205,6 @@ if (savedtasksFinish) {
         <p>Выбранный пользователь: <b>${selectedTaskFinish.user}</b></p>
         <p class="taskTitle">Заголовок: <b>${selectedTaskFinish.title}</b></p>
         <p class="taskText">Задача: <b>${selectedTaskFinish.description}</b></p>
-        <button id="EditView" class="edit">Edit</button>
         <button id="removeTikket" class="remove">Remove</button>
       </div>
     `;
@@ -225,7 +224,14 @@ if (savedtasksFinish) {
 
  
 
-  let testUserFinished = 0
+  let testUserFinished = 0;
+  tasksFinish.forEach((task) => {
+    if(task.user === "test"){
+      testUserFinished++
+    }
+    });
+    const finishedTask = document.querySelector("#finishedTasks");
+      finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
 
   tasksInProgress.forEach((task, index) => {
     const option = document.createElement('option');
@@ -245,13 +251,7 @@ if (savedtasksFinish) {
     selectTicketFinich.appendChild(option);
   });
   
-  tasksFinish.forEach((task) => {
-  if(task.user === "test"){
-    testUserFinished++
-  }
-  });
-  const finishedTask = document.querySelector("#finishedTasks");
-    finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
+
   
     
       tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
@@ -314,8 +314,6 @@ if (savedtasksFinish) {
       finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
   });
 
-  localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
-  localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
 }
 }
 
@@ -364,7 +362,6 @@ submitToGoInFinish.addEventListener('click', () => {
       <p>Выбранный пользователь: <b>${selectedTaskFinish.user}</b></p>
       <p class="taskTitle">Заголовок: <b>${selectedTaskFinish.title}</b></p>
       <p class="taskText">Задача: <b>${selectedTaskFinish.description}</b></p>
-      <button id="EditView" class="edit">Edit</button>
       <button id="removeTikket" class="remove">Remove</button>
     </div>
   `;} else if (login==="test"){
@@ -608,7 +605,6 @@ if (savedTasksinProgress) {
         <p>Выбранный пользователь: <b>${task.user}</b></p>
         <p class="taskTitle">Заголовок: <b>${task.title}</b></p>
         <p class="taskText">Задача: <b>${task.description}</b></p>
-        <button id="EditView" class="edit">Edit</button>
         <button id="removeTikket" class="remove">Remove</button>
       </div>
     `;
@@ -927,7 +923,11 @@ if(task.user === "test"){
 
 /////////////////////////////////////////////////////////////////////////////
 
+
+
 submitToGo.addEventListener('click', () => {
+
+
 
   tasksReady.forEach((task, index) => {
     
@@ -950,9 +950,11 @@ tasksReady.forEach((task, index) => {
 
 });
 
-  const selectedTaskIndex = selectTicket.value; // Получаем индекс выбранной задачи из <select>
-  const selectedTask = tasksReady.splice(selectedTaskIndex, 1)[0]; // Удаляем выбранный элемент из массива
+const selectedTaskIndex = selectTicket.selectedIndex; // Получаем индекс выбранной задачи из <select>
+const selectedTask = tasksReady.splice(selectedTaskIndex, 1)[0]; // Удаляем выбранный элемент из массива
 
+
+  
   tasksInProgress.push(selectedTask);
   console.log(tasksInProgress)
 
@@ -972,7 +974,6 @@ tasksReady.forEach((task, index) => {
       <p>Выбранный пользователь: <b>${selectedTask.user}</b></p>
       <p class="taskTitle">Заголовок: <b>${selectedTask.title}</b></p>
       <p class="taskText">Задача: <b>${selectedTask.description}</b></p>
-      <button id="EditView" class="edit">Edit</button>
       <button id="removeTikket" class="remove">Remove</button>
     </div>
   `;} else if (login==="test"){
@@ -1134,7 +1135,6 @@ if (savedTasksReady) {
         <p>Выбранный пользователь: <b>${task.user}</b></p>
         <p class="taskTitle">Заголовок: <b>${task.title}</b></p>
         <p class="taskText">Задача: <b>${task.description}</b></p>
-        <button id="EditView" class="edit">Edit</button>
         <button id="removeTikket" class="remove">Remove</button>
       </div>
     `;
@@ -1147,17 +1147,6 @@ if (savedTasksReady) {
     newItem.addEventListener('dragend', (event) => {
       event.currentTarget.classList.remove('dragging');
     });
-
-////////
- //Получение кнопки редактировать
-    // Получение кнопки редактирования
-    let editButton = newItem.querySelector(".edit");
-    editButton.addEventListener("click", () => {
-      // Сохранение выбранного индекса задачи
-      modalEditTikketViev.classList.add("myModal");
-      modalEditTicket.classList.add("modalWindow");
-    });
-
 
     //
     const removeButton = newItem.querySelector('.remove');
@@ -1312,7 +1301,6 @@ localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 
 }
 
-//редактирование задачи
 
 
 
@@ -1338,7 +1326,6 @@ addTicket.addEventListener('click', (e) => {
       <p>Выбранный пользователь: <b>${task.user}</b></p>
       <p class="taskTitle">Заголовок: <b>${task.title}</b></p>
       <p class="taskText">Задача: <b>${task.description}</b></p>
-      <button  class="edit">Edit</button>
       <button class="remove">Remove</button>
     </div>
   `;
@@ -1354,14 +1341,6 @@ addTicket.addEventListener('click', (e) => {
     event.currentTarget.classList.remove('dragging');
   });
   
-
-   // Получение кнопки редактировать
-   let editButton = newItem.querySelector(".edit");
-   editButton.addEventListener("click", () => {
-     modalEditTikketViev.classList.add("myModal");
-     modalEditTicket.classList.add("modalWindow");
-   });
-
 
   const removeButton = newItem.querySelector('.remove');
   removeButton.addEventListener('click', () => {
