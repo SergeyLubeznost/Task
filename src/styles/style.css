@@ -138,7 +138,7 @@ margin-right: 19px;
 .container {
   
   min-height: 1266px;
-
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -148,7 +148,7 @@ margin-right: 19px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   min-height: 458px;
   flex-wrap: wrap;
   
@@ -189,6 +189,7 @@ background: none;
 border: none;
 margin: 19px 0px 12px 11px;
 }
+
 
 .contentField{
  margin-left: auto;

@@ -32,11 +32,12 @@ buttonLogOut.addEventListener("click", () => {
     countTask.classList.remove("vievCountPosition");
     boardName.classList.add("vievBoardName");
     noAuthFooter.classList.remove("hidden");
+    greeting.classList.add("hidden")
 });
 
 generateTestUser(User);
 
-
+let greeting = document.querySelector("#greeting")
 
 loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -56,11 +57,18 @@ loginForm.addEventListener("submit", function (e) {
         boardName.classList.remove("vievBoardName");
         noAuthFooter.classList.add("hidden");
        // console.log(addTicket);
+       greeting.classList.remove("hidden")
+       greeting.textContent = `Hello, ${login}`;
     }
 
     if (!authUser(login, password)) {
+      
       return  alert("Error");
     }
+
+
+    
+
 
 
     document.querySelector("#content").innerHTML = fieldHTMLContent;
@@ -71,11 +79,6 @@ const viewModal = document.querySelector("#modalTikketViev");
 const modal = document.querySelector("#modalTicket")
 
 
-const modalEditTikketViev = document.querySelector("#modalEditTikketViev");
-const modalEditTicket = document.querySelector("#modalEditTicket")
-const editTitleModal = document.querySelector("#textEditTitlie")
-const editTextModal = document.querySelector("#textEditTicket")
-const submitEditTicket = document.querySelector("#submitEditTicket");
 
 readyButton.addEventListener("click", (e) => {
   viewModal.classList.add("myModal");
@@ -259,7 +262,7 @@ if (savedtasksFinish) {
       // Сохраняем массив tasksReady в локальное хранилище
       localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
       localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-      localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+      //localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
     });
 
 
@@ -408,7 +411,7 @@ const finishedTask = document.querySelector("#finishedTasks");
     // Сохраняем массив tasksReady в локальное хранилище
     localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
     localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-    localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+   // localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
   });
 }
   finishedColumn.appendChild(newItem);
@@ -435,7 +438,7 @@ const finishedTask = document.querySelector("#finishedTasks");
 
   localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
   localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-  localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+ // localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 
   contSelectFinish.classList.remove("modalSelect")
 });
@@ -513,10 +516,10 @@ if (login === "admin"){
     
       tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
     
-      // Сохраняем массив tasksReady в локальное хранилище
+      // Сохраняем массив в локальное хранилище
       localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
       localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-      localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+     // localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
     });
   }
 
@@ -556,7 +559,7 @@ newItem.addEventListener('dragend', (event) => {
 
   localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
   localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-  localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+ localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 
   contSelectFinish.classList.remove("modalSelect")
  //update
@@ -632,7 +635,7 @@ if (savedTasksinProgress) {
     
       localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
       localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-      localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+     // localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
     });
 
 
@@ -657,9 +660,9 @@ if (savedTasksinProgress) {
       selectTicketFinich.appendChild(option);
     });
     console.log(inProgressColumn)
-    localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
-    localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-    localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+   // localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+   // localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+    //localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
   });
 } else if (login === "test"){
   tasksInProgress = JSON.parse(savedTasksinProgress);
@@ -764,9 +767,9 @@ if (savedTasksinProgress) {
     
   });
 
-  localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
-  localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-  localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+ // localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+ // localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+  //localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 }
 }
 
@@ -869,7 +872,7 @@ if (login === "admin"){
     if (selectedTaskIndex > -1) {
       tasksInProgress.splice(selectedTaskIndex, 1);
     }
-  
+    localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
     tasksInProgress.length === 0 ? finishButton.disabled = true : finishButton.disabled = false;
   });
 }
@@ -953,7 +956,18 @@ tasksReady.forEach((task, index) => {
 const selectedTaskIndex = selectTicket.selectedIndex; // Получаем индекс выбранной задачи из <select>
 const selectedTask = tasksReady.splice(selectedTaskIndex, 1)[0]; // Удаляем выбранный элемент из массива
 
+const newTitle = document.querySelector("#textEditTitlie").value; // Получаем новый заголовок из инпута
+const newText = document.querySelector("#textEditTicket").value; // Получаем новый текст из инпута
 
+// Обновляем заголовок и текст выбранной задачи
+if (newTitle.trim() !== '' && newText.trim() !== '') {
+  selectedTask.title = newTitle;
+  selectedTask.description = newText;
+}
+
+// Очищаем инпуты
+textEditTitlie.value = '';
+textEditTicket.value = '';
   
   tasksInProgress.push(selectedTask);
   console.log(tasksInProgress)
@@ -1088,9 +1102,9 @@ if(task.user === "test"){
   finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
 
      // Сохраняем массив в локальное хранилище
-     localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+    // localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
      localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-     localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+   //  localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 });
 
 
@@ -1194,9 +1208,9 @@ if (savedTasksReady) {
 
   });
 
-  localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
-  localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-  localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+ // localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+ // localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+  //localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 } else if (login === "test") {
   tasksReady = JSON.parse(savedTasksReady);
   console.log(tasksReady);
@@ -1294,9 +1308,9 @@ if(task.user === "test"){
 const finishedTask = document.querySelector("#finishedTasks");
   finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
 
-  localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
-localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
-localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
+ // localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+//localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+//localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 }
 
 }
@@ -1390,8 +1404,8 @@ addTicket.addEventListener('click', (e) => {
   });
 
   // Сохраняем массив tasksReady в локальное хранилище
-  localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
-  localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
+ // localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+ // localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
   localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
 
   tasksReady.length ? (inprogressButton.disabled = false) : (inprogressButton.disabled = true);
