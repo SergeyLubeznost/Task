@@ -181,6 +181,8 @@ loginForm.addEventListener("submit", function (e) {
         ? (finishButton.disabled = true)
         : (finishButton.disabled = false);
 
+        finishedColumn.innerHTML = "";
+
       tasksFinish.forEach((selectedTaskFinish) => {
         const newItem = document.createElement("li");
         newItem.innerHTML = `
@@ -215,6 +217,7 @@ loginForm.addEventListener("submit", function (e) {
                 testUserFinished++;
               }
             });
+            localStorage.setItem("tasksFinish", JSON.stringify(tasksFinish));
           }
           const finishedTask = document.querySelector("#finishedTasks");
           finishedTask.textContent = `Finished tasks: ${testUserFinished}`;
@@ -361,7 +364,7 @@ loginForm.addEventListener("submit", function (e) {
   `;
     }
 
-    if (login === "admin") {
+   // if (login === "admin") {
       const removeButton = newItem.querySelector(".remove");
       removeButton.addEventListener("click", () => {
         // Удаление задачи из DOM
@@ -371,6 +374,7 @@ loginForm.addEventListener("submit", function (e) {
         const selectedTaskIndex = tasksFinish.indexOf(selectedTaskFinish);
         if (selectedTaskIndex > -1) {
           tasksFinish.splice(selectedTaskIndex, 1);
+          localStorage.setItem("tasksFinish", JSON.stringify(tasksFinish));
         }
 
         // Обновляем индексы оставшихся элементов списка
@@ -407,7 +411,7 @@ loginForm.addEventListener("submit", function (e) {
         );
         // localStorage.setItem('tasksReady', JSON.stringify(tasksReady));
       });
-    }
+    //}
     finishedColumn.appendChild(newItem);
 
     let testUserFinished = 0;
@@ -937,25 +941,30 @@ loginForm.addEventListener("submit", function (e) {
   /////////////////////////////////////////////////////////////////////////////
 
   submitToGo.addEventListener("click", () => {
-    tasksReady.forEach((task, index) => {
-      const option = document.createElement("option");
-      option.value = index;
-      option.text = task.title;
-      selectTicket.appendChild(option);
-    });
+    // tasksReady.forEach((task, index) => {
+    //   const option = document.createElement("option");
+    //   option.value = index;
+    //   option.text = task.title;
+    //   selectTicket.appendChild(option);
+    // });
 
     // Очищаем селект перед добавлением новых опций
-    selectTicket.innerHTML = "";
+    // selectTicket.innerHTML = "";
 
-    tasksReady.forEach((task, index) => {
-      const option = document.createElement("option");
-      option.value = index;
-      option.text = task.title;
-      selectTicket.appendChild(option);
-    });
+    // tasksReady.forEach((task, index) => {
+    //   const option = document.createElement("option");
+    //   option.value = index;
+    //   option.text = task.title;
+    //   selectTicket.appendChild(option);
+    // });
 
     const selectedTaskIndex = selectTicket.selectedIndex; // Получаем индекс выбранной задачи из <select>
+
+    console.log("tasksReady до слайса", tasksReady);
     const selectedTask = tasksReady.splice(selectedTaskIndex, 1)[0]; // Удаляем выбранный элемент из массива
+    console.log("selectedTask после слайса", selectedTask);
+    console.log("tasksReady после слайса", tasksReady);
+    localStorage.setItem("tasksReady", JSON.stringify(tasksReady));
 
     const newTitle = document.querySelector("#textEditTitlie").value; // Получаем новый заголовок из инпута
     const newText = document.querySelector("#textEditTicket").value; // Получаем новый текст из инпута
@@ -990,7 +999,7 @@ loginForm.addEventListener("submit", function (e) {
       <p class="taskText">Задача: <b>${selectedTask.description}</b></p>
       <button id="removeTikket" class="remove">Remove</button>
     </div>
-  `;
+    `;
     } else if (login === "test") {
       newItem.innerHTML = `
     <div class="TicketBlock">
@@ -998,7 +1007,7 @@ loginForm.addEventListener("submit", function (e) {
       <p class="taskTitle">Заголовок: <b>${selectedTask.title}</b></p>
       <p class="taskText">Задача: <b>${selectedTask.description}</b></p>
     </div>
-  `;
+    `;
     }
     newItem.addEventListener("dragstart", (event) => {
       event.dataTransfer.setData("text/plain", newItem.innerHTML);
@@ -1034,11 +1043,7 @@ loginForm.addEventListener("submit", function (e) {
         ? `Active tasks: 0`
         : `Active tasks: ${tasksReady.length}`;
 
-    const finishedTask = document.querySelector("#finishedTasks");
-    finishedTask.textContent =
-      tasksFinish.length === 0
-        ? `Finished tasks: 0`
-        : `Finished tasks: ${tasksFinish.length}`;
+ 
 
     selectTicket.options[selectedTaskIndex].remove();
 
@@ -1372,6 +1377,8 @@ loginForm.addEventListener("submit", function (e) {
       const selectedTaskIndex = tasksReady.indexOf(task);
       if (selectedTaskIndex > -1) {
         tasksReady.splice(selectedTaskIndex, 1);
+        localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+        localStorage.setItem("tasksReady", JSON.stringify(tasksReady));
       }
 
       const activeTaskBlock = document.querySelector("#activeTasks");
@@ -1417,7 +1424,7 @@ loginForm.addEventListener("submit", function (e) {
     });
 
     // Сохраняем массив tasksReady в локальное хранилище
-    // localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
+     localStorage.setItem('tasksFinish', JSON.stringify(tasksFinish));
     // localStorage.setItem('tasksInProgress', JSON.stringify(tasksInProgress));
     localStorage.setItem("tasksReady", JSON.stringify(tasksReady));
 
